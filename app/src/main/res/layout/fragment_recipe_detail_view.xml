@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/padding_recipe_detail_frag">
+
+    <TextView
+        android:id="@+id/ingredients_list_text_view_id"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/recipe_detail_text_view_height"
+        android:layout_margin="@dimen/recipe_detail_text_view_margin"
+        android:gravity="center"
+        android:text="@string/click_here_for_recipe_ingredients"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/baking_app_text_color" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/steps_recycler_view_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ingredients_list_text_view_id" />
+
+</RelativeLayout>

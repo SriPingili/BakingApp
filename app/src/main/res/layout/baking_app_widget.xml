@@ -1,0 +1,64 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/widget_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/widget_layout_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/widget_background"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/widget_padding"
+            android:paddingRight="@dimen/widget_padding">
+
+            <ImageView
+                android:id="@+id/widget_img_launcher"
+                android:layout_width="@dimen/image_view"
+                android:layout_height="@dimen/image_view"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/baking_widget" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingEnd="@dimen/widget_header_padding"
+                android:paddingLeft="@dimen/widget_header_padding"
+                android:paddingRight="@dimen/widget_header_padding"
+                android:paddingStart="@dimen/widget_header_padding"
+                android:text="@string/baking_app_widget"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/ingredient_name_widget_text_view_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@color/widget_background_secondary"
+            android:paddingEnd="@dimen/widget_header_padding"
+            android:paddingLeft="@dimen/widget_header_padding"
+            android:paddingRight="@dimen/widget_header_padding"
+            android:paddingStart="@dimen/widget_header_padding"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            tools:text="Ingredient Name" />
+
+        <ListView
+            android:id="@+id/widget_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/widget_background_secondary"></ListView>
+    </LinearLayout>
+
+</FrameLayout>

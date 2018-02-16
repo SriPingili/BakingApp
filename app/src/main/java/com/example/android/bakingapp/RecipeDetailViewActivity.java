@@ -2,8 +2,10 @@ package com.example.android.bakingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.example.android.bakingapp.fragments.DetailedStepsViewFragment;
@@ -14,6 +16,9 @@ import com.example.android.bakingapp.utilities.BakingAppUtil;
 /**
  * This class is responsible for displaying the details of the recipe
  * selected from the MainActivity.
+ * <p>
+ * recycler view scroll state reference :
+ * https://stackoverflow.com/questions/28236390/recyclerview-store-restore-state-between-activities/28262885#28262885
  */
 public class RecipeDetailViewActivity extends AppCompatActivity implements StepsViewFragment.OnStepsViewFragmentClickListener {
 
@@ -23,6 +28,8 @@ public class RecipeDetailViewActivity extends AppCompatActivity implements Steps
 
     private boolean savedInstanceNull = true;
     private static int position = -1;
+    private Parcelable recyclerViewState = null;
+    private static final String SAVE_STATE_KEY = "save_key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +65,7 @@ public class RecipeDetailViewActivity extends AppCompatActivity implements Steps
         stepsViewFragment.setArguments(BakingAppUtil.getRecipeBundle(BakingAppUtil.RECIPE_DATA_KEY, recipeData));
         final FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.steps_container_id, stepsViewFragment)
+                .replace(R.id.steps_container_id, stepsViewFragment)
                 .commit();
     }
 
@@ -100,6 +107,7 @@ public class RecipeDetailViewActivity extends AppCompatActivity implements Steps
     @Override
     protected void onResume() {
         super.onResume();
+        StepsViewFragment.stepsRecyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
         if (isTwoPaneLayout && position != -1)
             setUpTwoPaneLayoutDetailedSteps(position);
     }
@@ -127,7 +135,7 @@ public class RecipeDetailViewActivity extends AppCompatActivity implements Steps
      * helper method to set up the custom action bar
      */
     private void setUpCustomActionBar() {
-        BakingAppUtil.setCustomActionBar(this, recipeData.getName() +" "+getString(R.string.preparation));
+        BakingAppUtil.setCustomActionBar(this, recipeData.getName() + " " + getString(R.string.preparation));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -148,6 +156,15 @@ public class RecipeDetailViewActivity extends AppCompatActivity implements Steps
     @Override
     public void onSaveInstanceState(Bundle outState) {
         BakingAppUtil.saveCurrentState(outState, position, recipeData);
+        outState.putParcelable(SAVE_STATE_KEY, StepsViewFragment.stepsRecyclerView.getLayoutManager().onSaveInstanceState());
         super.onSaveInstanceState(outState);
+    }
+
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null)
+            recyclerViewState = savedInstanceState.getParcelable(SAVE_STATE_KEY);
     }
 }

@@ -31,8 +31,9 @@ public class StepsViewFragment extends Fragment {
     private RecipeData recipeData;
     private List<Steps> stepsList;
 
-    @BindView(R.id.steps_recycler_view_id)
-    protected RecyclerView stepsRecyclerView;
+
+    //@BindView(R.id.steps_recycler_view_id)
+    public static RecyclerView stepsRecyclerView;
 
     private static OnStepsViewFragmentClickListener mlistener;
 
@@ -61,8 +62,11 @@ public class StepsViewFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_recipe_detail_view, container, false);
         ButterKnife.bind(this, rootView);
+        stepsRecyclerView = rootView.findViewById(R.id.steps_recycler_view_id);
+
         stepsRecyclerView.setHasFixedSize(true);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         stepsRecyclerView.setLayoutManager(linearLayoutManager);
 
         recipeData = (RecipeData) getArguments().getSerializable(BakingAppUtil.RECIPE_DATA_KEY);

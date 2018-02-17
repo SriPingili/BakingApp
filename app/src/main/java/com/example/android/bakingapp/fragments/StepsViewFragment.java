@@ -31,8 +31,6 @@ public class StepsViewFragment extends Fragment {
     private RecipeData recipeData;
     private List<Steps> stepsList;
 
-
-    //@BindView(R.id.steps_recycler_view_id)
     public static RecyclerView stepsRecyclerView;
 
     private static OnStepsViewFragmentClickListener mlistener;

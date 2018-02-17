@@ -25,16 +25,15 @@ import butterknife.ButterKnife;
 public class DetailedIngredientsViewFragment extends Fragment {
 
     private ArrayList<Ingredients> ingredientsArrayList;
-    @BindView(R.id.ingredients_recycler_view_id)
-    protected RecyclerView ingredients_recyclerView;
+    public static RecyclerView ingredients_recyclerView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail_ingredients_view, container, false);
-        ButterKnife.bind(this, rootView);
-        ingredientsArrayList = (ArrayList<Ingredients>) getArguments().getSerializable(BakingAppUtil.INGREDIENTS_DATA_KEY);
+        ingredients_recyclerView = rootView.findViewById(R.id.ingredients_recycler_view_id);
 
+        ingredientsArrayList = (ArrayList<Ingredients>) getArguments().getSerializable(BakingAppUtil.INGREDIENTS_DATA_KEY);
 
         ingredients_recyclerView.setHasFixedSize(true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());

@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.example.android.bakingapp.fragments.DetailedIngredientsViewFragment;
 import com.example.android.bakingapp.fragments.DetailedStepsViewFragment;
 import com.example.android.bakingapp.fragments.StepsViewFragment;
 import com.example.android.bakingapp.model.RecipeData;
@@ -28,8 +28,11 @@ public class RecipeDetailViewActivity extends AppCompatActivity implements Steps
 
     private boolean savedInstanceNull = true;
     private static int position = -1;
-    private Parcelable recyclerViewState = null;
-    private static final String SAVE_STATE_KEY = "save_key";
+    private Parcelable stepsRecyclerViewState = null;
+    private Parcelable ingredientsRecyclerViewState = null;
+
+    private static final String SAVE_STEPS_STATE_KEY = "save_key";
+    private static final String SAVE_INGREDIENTS_STATE_KEY = "save_ingredients_key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +110,10 @@ public class RecipeDetailViewActivity extends AppCompatActivity implements Steps
     @Override
     protected void onResume() {
         super.onResume();
-        StepsViewFragment.stepsRecyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+        if (StepsViewFragment.stepsRecyclerView != null)
+            StepsViewFragment.stepsRecyclerView.getLayoutManager().onRestoreInstanceState(stepsRecyclerViewState);
+        if (DetailedIngredientsViewFragment.ingredients_recyclerView != null)
+            DetailedIngredientsViewFragment.ingredients_recyclerView.getLayoutManager().onRestoreInstanceState(ingredientsRecyclerViewState);
         if (isTwoPaneLayout && position != -1)
             setUpTwoPaneLayoutDetailedSteps(position);
     }
@@ -156,7 +162,10 @@ public class RecipeDetailViewActivity extends AppCompatActivity implements Steps
     @Override
     public void onSaveInstanceState(Bundle outState) {
         BakingAppUtil.saveCurrentState(outState, position, recipeData);
-        outState.putParcelable(SAVE_STATE_KEY, StepsViewFragment.stepsRecyclerView.getLayoutManager().onSaveInstanceState());
+        if (StepsViewFragment.stepsRecyclerView != null)
+            outState.putParcelable(SAVE_STEPS_STATE_KEY, StepsViewFragment.stepsRecyclerView.getLayoutManager().onSaveInstanceState());
+        if (DetailedIngredientsViewFragment.ingredients_recyclerView != null)
+            outState.putParcelable(SAVE_INGREDIENTS_STATE_KEY, DetailedIngredientsViewFragment.ingredients_recyclerView.getLayoutManager().onSaveInstanceState());
         super.onSaveInstanceState(outState);
     }
 
@@ -164,7 +173,11 @@ public class RecipeDetailViewActivity extends AppCompatActivity implements Steps
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState != null)
-            recyclerViewState = savedInstanceState.getParcelable(SAVE_STATE_KEY);
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getParcelable(SAVE_STEPS_STATE_KEY) != null)
+                stepsRecyclerViewState = savedInstanceState.getParcelable(SAVE_STEPS_STATE_KEY);
+            if (savedInstanceState.getParcelable(SAVE_INGREDIENTS_STATE_KEY) != null)
+                ingredientsRecyclerViewState = savedInstanceState.getParcelable(SAVE_INGREDIENTS_STATE_KEY);
+        }
     }
 }

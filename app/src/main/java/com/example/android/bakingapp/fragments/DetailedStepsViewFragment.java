@@ -112,8 +112,10 @@ public class DetailedStepsViewFragment extends android.support.v4.app.Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        position = mExoPlayer.getCurrentPosition();
-        mPlayVideoWhenForegrounded = mExoPlayer.getPlayWhenReady();
+        if(mExoPlayer!=null) {
+            position = mExoPlayer.getCurrentPosition();
+            mPlayVideoWhenForegrounded = mExoPlayer.getPlayWhenReady();
+        }
     }
 
     @Override
